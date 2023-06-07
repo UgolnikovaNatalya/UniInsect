@@ -850,7 +850,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu Back
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3468854577645211805, guid: 7e6eb598fe934264aad621e181d0c3bf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7e6eb598fe934264aad621e181d0c3bf, type: 3}
 --- !u!1 &1978322396
 GameObject:

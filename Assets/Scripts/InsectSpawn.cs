@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,36 +6,35 @@ using UnityEngine.UI;
 public class InsectSpawn : MonoBehaviour
 {
 
-    //объект пауков
+    //РѕР±СЉРµРєС‚ РїР°СѓРєРѕРІ
     [SerializeField]
     public GameObject spider;
 
-    //объект пчел
+    //РѕР±СЉРµРєС‚ РїС‡РµР»
     [SerializeField]
     public GameObject bee;
 
-    //количество насекрмых
+    //РєРѕР»РёС‡РµСЃС‚РІРѕ РЅР°СЃРµРєСЂРјС‹С…
     private int insectNumber;
 
-    //переменная для рандомного создания объектов  1 - паук, 2 - пчела
+    //РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ СЂР°РЅРґРѕРјРЅРѕРіРѕ СЃРѕР·РґР°РЅРёСЏ РѕР±СЉРµРєС‚РѕРІ  1 - РїР°СѓРє, 2 - РїС‡РµР»Р°
     private int randomInsect;
 
-    //таймер
+    //С‚Р°Р№РјРµСЂ
     public float gameTimer = 4;
-
     public Text timerText;
 
-    //счетчик
-    private Text score;
+    //СЃС‡РµС‚С‡РёРє
+    public Text score;
 
-    //кнопка возврата в меню
+    //РєРЅРѕРїРєР° РІРѕР·РІСЂР°С‚Р° РІ РјРµРЅСЋ
     public Button btn;
 
 
 
     private void Start()
     {
-        //выводим секунды в текстовое окно секундомера
+        //РІС‹РІРѕРґРёРј СЃРµРєСѓРЅРґС‹ РІ С‚РµРєСЃС‚РѕРІРѕРµ РѕРєРЅРѕ СЃРµРєСѓРЅРґРѕРјРµСЂР°
         timerText.text = gameTimer.ToString();
         insectNumber = 0;
 
@@ -49,28 +48,21 @@ public class InsectSpawn : MonoBehaviour
     {
         if (gameTimer > 0)
         {
-            gameTimer -= Time.deltaTime; //обратный отсчет
+            gameTimer -= Time.deltaTime; //РѕР±СЂР°С‚РЅС‹Р№ РѕС‚СЃС‡РµС‚
             timerText.text = Mathf.Round(gameTimer).ToString();
         }
-        //else 
-        //{           
-        //    //StopCoroutine(Spawn());
-        //    GameObject obj = GameObject.FindWithTag("Insect");
-        //    Destroy(obj);
-        //    Debug.LogAssertion("Coroutine is stopped");
-        //}
 
     }
 
     IEnumerator Spawn()
     {
-        //генерация по времени
+        //РіРµРЅРµСЂР°С†РёСЏ РїРѕ РІСЂРµРјРµРЅРё
         if (insectNumber == 0)
         {
 
             while (gameTimer > 0 && insectNumber != 3)
             {
-                randomInsect = Random.Range(1, 3); //если 1 - паук, 2 - пчела
+                randomInsect = Random.Range(1, 3); //РµСЃР»Рё 1 - РїР°СѓРє, 2 - РїС‡РµР»Р°
 
                 if (randomInsect == 1)
                 {
@@ -85,37 +77,32 @@ public class InsectSpawn : MonoBehaviour
                 }
 
                 gameTimer -= Time.deltaTime;
-                //insectNumber++;
+
                 Debug.Log($"Timer: {gameTimer}");
             }
 
+            //СѓРґР°Р»РµРЅРёРµ РІСЃРµС… РѕР±СЉРµРєС‚РѕРІ РїРѕСЃР»Рµ Р·Р°РІРµСЂС€РµРЅРёСЏ РІСЂРµРјРµРЅРё
             GameObject[] obj = GameObject.FindGameObjectsWithTag("Insect");
             for (int i = 0; i < obj.Length; i++)
             {
                 Destroy(obj[i]);
             }
 
-
-            //GameObject[] obj = GameObject.FindGameObjectsWithTag("Insect");
-            //GameObject obj1 = obj[];
-            //Destroy(obj1);
-
-
-
+            //РїРѕСЏРІР»РµРЅРёРµ РєРЅРѕРїРєРё РїРѕСЃР»Рµ РѕРєРѕРЅС‡Р°РЅРёСЏ РІСЂРµРјРµРЅРё
             btn.gameObject.SetActive(true);
         }
 
-        //btn.gameObject.SetActive(true);
-        ////генерация по количеству
+
+        ////РіРµРЅРµСЂР°С†РёСЏ РїРѕ РєРѕР»РёС‡РµСЃС‚РІСѓ
         //if (insectNumber > 0)
         //{
         //    gameTimer = 0;
         //    gameTimer += Time.deltaTime;
-        //    //цикл для создания насекомых,
-        //    //когда задано количество
+        //    //С†РёРєР» РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РЅР°СЃРµРєРѕРјС‹С…,
+        //    //РєРѕРіРґР° Р·Р°РґР°РЅРѕ РєРѕР»РёС‡РµСЃС‚РІРѕ
         //    while (count != insectNumber)
         //    {
-        //        randomInsect = Random.Range(1, 3); //если 1 - паук, 2 - пчела
+        //        randomInsect = Random.Range(1, 3); //РµСЃР»Рё 1 - РїР°СѓРє, 2 - РїС‡РµР»Р°
 
         //        if (randomInsect == 1)
         //        {

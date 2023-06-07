@@ -11,7 +11,6 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("GameScene");
-        Debug.LogError("sTART");
     }
 
     public void GamerName()

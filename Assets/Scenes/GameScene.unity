@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 238429944}
+  score: 0
 --- !u!1 &277476300
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,6 +416,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 365098327}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &284449431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,7 +475,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 365098328}
-  - component: {fileID: 365098329}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -485,22 +497,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &365098329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365098327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3910efcff0f2ab49ba004fbbcd61a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spider: {fileID: 8501379417458809152, guid: fa0a7df9ea8342b48b2182e2d2139d59, type: 3}
-  bee: {fileID: 893303170669437060, guid: 8fd5c7af1762be54c80b94a0f76d26e8, type: 3}
-  timerText: {fileID: 1034311106}
-  btn: {fileID: 284449430}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,8 +596,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spider: {fileID: 8501379417458809152, guid: fa0a7df9ea8342b48b2182e2d2139d59, type: 3}
   bee: {fileID: 893303170669437060, guid: 8fd5c7af1762be54c80b94a0f76d26e8, type: 3}
+  gameTimer: 4
   timerText: {fileID: 1034311106}
-  btn: {fileID: 0}
+  score: {fileID: 238429944}
+  btn: {fileID: 284449430}
 --- !u!1 &807329587 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2983743899217677423, guid: 7e6eb598fe934264aad621e181d0c3bf, type: 3}

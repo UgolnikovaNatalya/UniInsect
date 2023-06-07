@@ -1,23 +1,24 @@
+using System;
 using UnityEngine;
 
 public class DecriseScore : MonoBehaviour
 {
     private Score scores;
-    private InsectSpawn spawn;
+    private InsectSpawn timer;
 
 
     private void Start()
     {
-        scores = FindObjectOfType<Score>();
-        spawn = FindObjectOfType<InsectSpawn>();
+        scores = FindObjectOfType<Score>(); 
+        timer = FindObjectOfType<InsectSpawn>();
     }
 
     private void OnMouseDown()
     {
-        if (spawn.gameTimer > 0)
+        if (timer.gameTimer > 0)
         {
             scores.Miss();
-        }
-
+        } 
+        
     }
 }

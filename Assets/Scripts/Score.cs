@@ -4,8 +4,17 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
+    [SerializeField]
     public Text scoreText;
-    public static int score = 0;
+    public int score = 0;
+
+    private void Start()
+    {
+        scoreText = GetComponent<Text>();
+
+        score = 0;
+        scoreText.text = score.ToString();
+    }
 
     private void Update()
     {
@@ -21,9 +30,9 @@ public class Score : MonoBehaviour
 
     public void Miss()
     {
-            if (score != 0)
-            {
-                score--;
-            }        
+        if (score != 0)
+        {
+            score--;
+        }        
     }
 }
