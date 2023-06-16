@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 
 public class DecriseScore : MonoBehaviour
 {
-    private Score scores;
-    private InsectSpawn timer;
+    public Score scores;
+    public InsectSpawn timer;
 
 
     private void Start()

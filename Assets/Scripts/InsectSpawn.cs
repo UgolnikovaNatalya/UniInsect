@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +20,7 @@ public class InsectSpawn : MonoBehaviour
     private int randomInsect;
 
     //таймер
-    public float gameTimer = 4;
+    public float gameTimer = 6;
     public Text timerText;
 
     //счетчик
@@ -29,7 +28,6 @@ public class InsectSpawn : MonoBehaviour
 
     //кнопка возврата в меню
     public Button btn;
-
 
 
     private void Start()
@@ -41,7 +39,7 @@ public class InsectSpawn : MonoBehaviour
         btn.gameObject.SetActive(false);
 
         StartCoroutine(Spawn());
-        Debug.Log(timerText.text);
+
     }
 
     private void Update()
@@ -78,7 +76,6 @@ public class InsectSpawn : MonoBehaviour
 
                 gameTimer -= Time.deltaTime;
 
-                Debug.Log($"Timer: {gameTimer}");
             }
 
             //удаление всех объектов после завершения времени

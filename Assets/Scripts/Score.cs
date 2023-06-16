@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,10 +7,11 @@ public class Score : MonoBehaviour
     public Text scoreText;
     public int score = 0;
 
+
     private void Start()
     {
         scoreText = GetComponent<Text>();
-
+        
         score = 0;
         scoreText.text = score.ToString();
     }
@@ -20,11 +20,13 @@ public class Score : MonoBehaviour
     {
         scoreText.text = score.ToString();
 
+
+        PlayerPrefs.SetInt("r", score);
+
     }
 
     public void Kill()
     {
-
         score++;
     }
 
