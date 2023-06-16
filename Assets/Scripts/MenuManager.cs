@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
     private const string Insects = "InsectNumber";
     private const string Record = "Records";
     private const string MainMenu = "MainMenu";
+    private const string SimpleGame = "SimpleGame";
 
     public void StartGame()
     {
@@ -32,6 +33,12 @@ public class MenuManager : MonoBehaviour
     {
 
         SceneManager.LoadScene(MainMenu);
+    }
+
+    public void ToSimpleGame()
+    {
+
+        SceneManager.LoadScene(SimpleGame);
     }
 
 }

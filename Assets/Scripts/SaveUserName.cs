@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class SaveUserName : MonoBehaviour
 {
     public InputField field;
-    //public Button startGameBtn;
 
     public void SaveName()
     {
