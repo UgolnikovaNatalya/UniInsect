@@ -1,123 +1,142 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * Класс отвечающий за сохранение данных и вывод статистики
+ */
 public class Results : MonoBehaviour
 {
-    private Text records;
+    private Text textRecord;
 
+    //лист в котором хранятся рекорды
+    private List<int> listOfRecords = new List<int> { 0, 0, 0 };
+    //лист в котором хранятся имена
+    private List<string> listOfUsers = new List<string> { "", "", "" };
+    //размер сохраняемых листов
+    private int listLength;
+    //очки, набранные пользователем
+    private int userPoints;
+    //имя игрока
+    private string userName;
+    //позиция рекорда, по которой в лист с именами записывается имя
+    private int indexPosition;
 
-    private List<int> results = new List<int> { 0, 0, 0 };
-    private List<string> usersName = new List<string> {"", "", ""};
-
-    private int savedListCount;
-    
-    private int userRes;
-    private int resPosition;
-    private string nameUser;
-
-    private const string recCount = "listCount";
-    private const string listRec = "listResults";
-
-    private const string listName = "names";
-
+    //функция сохранения листов
     public void SaveList()
     {
-        //��������� ���� � ���������
-        for (int i = 0; i < results.Count; i++)
+        //сохраняем лист с рекордами
+        for (int i = 0; i < listOfRecords.Count; i++)
         {
-            PlayerPrefs.SetInt(listRec + i, results[i]);
+            PlayerPrefs.SetInt("listOfRecords" + i, listOfRecords[i]);
         }
-        PlayerPrefs.SetInt(recCount, results.Count);
+        PlayerPrefs.SetInt("listLength", listOfRecords.Count);
 
-        //��������� ���� � �������
-        for (int i = 0; i < usersName.Count; i++)
+        ////сохраняем лист с именами
+        for (int i = 0; i < listOfUsers.Count; i++)
         {
-            PlayerPrefs.SetString(listName + i, usersName[i]);
+            PlayerPrefs.SetString("listOfUsers" + i, listOfUsers[i]);
         }
-        PlayerPrefs.SetInt(recCount, usersName.Count);
+        PlayerPrefs.SetInt("listLength", listOfUsers.Count);
     }
 
+    //функция восстановления листов
     public void LoadList()
     {
-        //��������� ���� � ���������
-        results.Clear();
-        savedListCount = PlayerPrefs.GetInt(recCount);
+        //загружаем лист с рекордами
+        listOfRecords.Clear();
 
-        for (int i = 0; i < savedListCount; i++)
+        //загружаем и проверяем длину списка
+        if (PlayerPrefs.HasKey("listLength"))
         {
-            int num = PlayerPrefs.GetInt(listRec + i);
-            results.Add(num);
+            listLength = PlayerPrefs.GetInt("listLength");
+        }
+        else
+        {
+            listLength = 3;
         }
 
-        //��������� ���� � �������
-        usersName.Clear();
-        savedListCount = PlayerPrefs.GetInt(recCount);
-
-        for (int i = 0; i < savedListCount; i++)
+        for (int i = 0; i < listLength; i++)
         {
-            string name = PlayerPrefs.GetString(listName + i);
-            usersName.Add(name);
+            int num = PlayerPrefs.GetInt("listOfRecords" + i);
+            listOfRecords.Add(num);
+        }
+
+
+        //загружаем лист с именами
+        listOfUsers.Clear();
+
+        for (int i = 0; i < listLength; i++)
+        {
+            string name = PlayerPrefs.GetString("listOfUsers" + i);
+            listOfUsers.Add(name);
+        }
+
+    }
+
+    //получаем данные об имени и очках
+    public void LoadPointsAndName()
+    {
+        //проверяем наличие очков
+        if (PlayerPrefs.HasKey("r"))
+        {
+            userPoints = PlayerPrefs.GetInt("r");
+        }
+        else
+        {
+            userPoints = 0;
+        }
+
+        ////проверяем наличие имени
+        if (PlayerPrefs.HasKey("userName"))
+        {
+            userName = PlayerPrefs.GetString("userName");
+        }
+        else
+        {
+            userName = "No name";
         }
     }
 
     private void Awake()
     {
-        Debug.LogError("AWAKE");
-
+        //загружаем листы
         LoadList();
-
-        userRes = PlayerPrefs.GetInt("r");
-        nameUser = PlayerPrefs.GetString ("username");
-
-        if (nameUser == null || nameUser == "")
-        {
-            nameUser = "No name";
-        }
-
-    } 
+        //загружаем данные
+        LoadPointsAndName();
+        //определяем текстовый объект на сцене
+        textRecord = FindObjectOfType<Text>();
+    }
 
     private void Start()
     {
-        Debug.LogError("START");
-
-        records = FindObjectOfType<Text>();
-
-        if (userRes > results[2])
+        //проверяем число на топ-3
+        if (userPoints > listOfRecords[2])
         {
-            results[2] = userRes;
+            listOfRecords[2] = userPoints;
 
-            results.Sort();
-            results.Reverse();
-
+            listOfRecords.Sort();
+            listOfRecords.Reverse();
         }
 
-        for (int i = 0; i < results.Count; i++)
-        {
-            if (results[i] == userRes)
-            {
-                resPosition = results.IndexOf(results[i]);
-            }
+        //если число попало, то добавляем имя
+        indexPosition = listOfRecords.IndexOf(userPoints);
+        Debug.Log("pos " + indexPosition);
+        listOfUsers.Insert(indexPosition, userName);
 
-        }
-            Debug.LogError("IndexOf " + resPosition);
+        //вывод на экран
+        textRecord.text = $"{listOfRecords[0]}\t{listOfUsers[0]}\n" +
+            $"{listOfRecords[1]}\t{listOfUsers[1]}\n{listOfRecords[2]}\t{listOfUsers[2]}";
 
-        usersName.Insert(resPosition, nameUser);
 
+        //сбрасываем значения
+        userName = "No name";
+        userPoints = 0;
+        PlayerPrefs.SetInt("r", userPoints);
+        PlayerPrefs.SetString("userName", userName);
+        //сохраняем листы
         SaveList();
-
-        userRes = 0;
-        PlayerPrefs.SetInt("r", userRes);
-        nameUser = "";
-        PlayerPrefs.SetString("username", nameUser);
-
-        records.text = $"{usersName[0]} {results[0]}\n{usersName[1]} {results[1]}\n{usersName[2]} {results[2]}";
-
-
-
-
-
+        PlayerPrefs.SetString("userName", userName);
     }
 
 }

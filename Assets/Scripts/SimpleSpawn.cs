@@ -2,6 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * Такой же класс, как и InsectSpawn
+ * только в нем не сохраняются рекорды
+ */
 public class SimpleSpawn : MonoBehaviour
 {
     //объект пауков
@@ -14,7 +18,6 @@ public class SimpleSpawn : MonoBehaviour
 
     //количество насекрмых
     private int insectNumber;
-    private int currentNumber;
 
     //переменная для рандомного создания объектов  1 - паук, 2 - пчела
     private int randomInsect;
@@ -24,27 +27,49 @@ public class SimpleSpawn : MonoBehaviour
 
     //возврат в меню
     public Button btn;
+    //таймер отображения кнопки
+    private float timerButton = 1f;
 
     void Start()
     {
+        //получение данных о количестве насекомых
         insectNumber = int.Parse(PlayerPrefs.GetString("inse"));
-        Debug.LogError("InsectNumber: " +  insectNumber);
-        
-
+        //таймер появления кнопки 1,5 сек
+        timerButton = 1.5f;
         btn.gameObject.SetActive(false);
-
+        //старт корутины
         StartCoroutine(Spawn());
     }
 
     void Update()
     {
+        //обновляем количество насекомых
         score.text = insectNumber.ToString();
+
+        //когда количество насекомых =0, запускается таймер 
+        //появления кнопки и остановка корутины через 1,5 сек
+        if (insectNumber == 0)
+        {
+            //кнопка меню появится через 1,5 сек
+            timerButton -= Time.deltaTime;
+
+            if (timerButton > 0)
+            {
+                Debug.Log("Timer: " + timerButton);
+            }
+            else
+            {
+                btn.gameObject.SetActive(true);
+            }
+        }
+        //остановка корутины
+            StopCoroutine(Spawn());        
     }
 
-
+    //корутина
     IEnumerator Spawn()
     {
-
+        //пока количество насекомых > 0 насекомые создаются
         while (insectNumber > 0)
         {
             randomInsect = Random.Range(1, 3); //если 1 - паук, 2 - пчела
@@ -65,7 +90,17 @@ public class SimpleSpawn : MonoBehaviour
 
         }
 
-        btn.gameObject.SetActive(true);
+        if (insectNumber == 0)
+        {
+            //после появления последнего насекомого
+            //уничтожение всех насекомых через 1,5 сек
+            GameObject[] obj = GameObject.FindGameObjectsWithTag("Insect");
+            for (int i = 0; i < obj.Length; i++)
+            {
+                Destroy(obj[i], 1.5f);
+            }
+
+        }
 
     }
 }

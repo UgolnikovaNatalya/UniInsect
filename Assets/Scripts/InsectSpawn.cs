@@ -1,20 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
+ * Основной класс, где происходит создание игровых объектов
+ */
 public class InsectSpawn : MonoBehaviour
 {
 
     //объект пауков
-    [SerializeField]
     public GameObject spider;
 
     //объект пчел
-    [SerializeField]
     public GameObject bee;
-
-    //количество насекрмых
-    private int insectNumber;
 
     //переменная для рандомного создания объектов  1 - паук, 2 - пчела
     private int randomInsect;
@@ -23,7 +20,7 @@ public class InsectSpawn : MonoBehaviour
     public float gameTimer = 6;
     public Text timerText;
 
-    //счетчик
+    //счетчик очков
     public Text score;
 
     //кнопка возврата в меню
@@ -34,16 +31,18 @@ public class InsectSpawn : MonoBehaviour
     {
         //выводим секунды в текстовое окно секундомера
         timerText.text = gameTimer.ToString();
-        insectNumber = 0;
 
+        //скрываем кнопку возврата в меню
         btn.gameObject.SetActive(false);
 
+        //запускаем корутину
         StartCoroutine(Spawn());
 
     }
 
     private void Update()
     {
+        //проводим отсчет времени, пока оно не равно 0
         if (gameTimer > 0)
         {
             gameTimer -= Time.deltaTime; //обратный отсчет
@@ -52,73 +51,41 @@ public class InsectSpawn : MonoBehaviour
 
     }
 
+    // корутина
     IEnumerator Spawn()
     {
-        //генерация по времени
-        if (insectNumber == 0)
+        //объекты создаются, пока таймер не равен 0
+        while (gameTimer > 0)
         {
+            //генерация рандомного числа
+            randomInsect = Random.Range(1, 3); //если 1 - паук, 2 - пчела
 
-            while (gameTimer > 0 && insectNumber != 3)
+            //создание объекта
+            if (randomInsect == 1)
             {
-                randomInsect = Random.Range(1, 3); //если 1 - паук, 2 - пчела
-
-                if (randomInsect == 1)
-                {
-                    Instantiate(spider, new Vector2(Random.Range(-3.5f, 3.5f), 6.5f), Quaternion.identity);
-                    yield return new WaitForSeconds(1.0f);
-                }
-
-                else if (randomInsect == 2)
-                {
-                    Instantiate(bee, new Vector2(Random.Range(-3.5f, 3.5f), 6.5f), Quaternion.identity);
-                    yield return new WaitForSeconds(1.2f);
-                }
-
-                gameTimer -= Time.deltaTime;
-
+                Instantiate(spider, new Vector2(Random.Range(-3.5f, 3.5f), 6.5f), Quaternion.identity);
+                yield return new WaitForSeconds(1.0f);
+            }
+            else if (randomInsect == 2)
+            {
+                Instantiate(bee, new Vector2(Random.Range(-3.5f, 3.5f), 6.5f), Quaternion.identity);
+                yield return new WaitForSeconds(1.2f);
             }
 
-            //удаление всех объектов после завершения времени
-            GameObject[] obj = GameObject.FindGameObjectsWithTag("Insect");
-            for (int i = 0; i < obj.Length; i++)
-            {
-                Destroy(obj[i]);
-            }
+            gameTimer -= Time.deltaTime;
 
-            //появление кнопки после окончания времени
-            btn.gameObject.SetActive(true);
         }
 
+        //удаление всех объектов после завершения времени
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Insect");
+        for (int i = 0; i < obj.Length; i++)
+        {
+            Destroy(obj[i]);
+        }
 
-        ////генерация по количеству
-        //if (insectNumber > 0)
-        //{
-        //    gameTimer = 0;
-        //    gameTimer += Time.deltaTime;
-        //    //цикл для создания насекомых,
-        //    //когда задано количество
-        //    while (count != insectNumber)
-        //    {
-        //        randomInsect = Random.Range(1, 3); //если 1 - паук, 2 - пчела
-
-        //        if (randomInsect == 1)
-        //        {
-        //            Instantiate(spider, new Vector2(Random.Range(-3.5f, 3.5f), 6.5f), Quaternion.identity);
-        //            yield return new WaitForSeconds(3f);
-        //        }
-
-        //        else if (randomInsect == 2)
-        //        {
-        //            Instantiate(bee, new Vector2(Random.Range(-3.5f, 3.5f), 6.5f), Quaternion.identity);
-        //            yield return new WaitForSeconds(2.5f);
-        //        }
-
-        //        count++;
-
-        //    }
-
-        //}
-
+        //появление кнопки после окончания времени
+        btn.gameObject.SetActive(true);
+       
     }
 
 }
